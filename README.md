@@ -46,3 +46,9 @@ The Hough Transform is a technique which can be used to isolate features of a pa
 **6. Error Calculation**
 
 //TODO: add description
+<!--
+If a line is defined by two points <img src="https://tex.s2cms.ru/svg/P_1%3D(x_1%2Cy_1)"/> 
+and <img src="https://tex.s2cms.ru/svg/P_2%3D(x_2%2Cy_2)" /> then the distance from 
+<img src="https://tex.s2cms.ru/svg/(x_0%2Cy_0)"/> to the line is given by
+<img src="https://tex.s2cms.ru/svg/distance(P_1%2CP_2%2C(x_0%2Cy_0))%3D%5Cfrac%7B%7C(y_2-y_1)x_0-(x_2-x_1)y_0%2Bx_2y_1-y_2x_1%7C%7D%7B%5Csqrt%7B(y_2-y_1)%5E2%2B(x_2-x_1)%5E2%7D"/>
+-->
