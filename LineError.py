@@ -53,7 +53,7 @@ class LineError():
 
 
         # calculate the value of theta
-        self.theta = sum(angles)/len(angles)
+        self.theta = np.pi/2 - sum(angles)/len(angles)
 
         # calculate the value of delta
         x1 = sum(x1s)//len(x1s)
