@@ -33,8 +33,16 @@ Once the image has been converted to HSL, a mask is then applied to the image th
 
 **4. Canny Edge Detection**
 
+The Canny Edge Detection algorithm detects a wide range of edges in images by measuring the intensity gradients of each pixel. Following this process, an image is produced in which each side of the red line is clearly marked as an edge.
+
 <img src="https://github.com/htil/bdr-line-detection/blob/master/images/sample_workflow/edges.jpg" width="200">
 
 **5. Hough Line Transform**
 
+The Hough Transform is a technique which can be used to isolate features of a particular shape within an image. It is used here to detect the edges of the red line in the image. These lines can then be visualized by overlaying them on the original image.
+
 <img src="https://github.com/htil/bdr-line-detection/blob/master/images/sample_workflow/result.jpg" width="200">
+
+**6. Error Calculation**
+
+//TODO: add description
