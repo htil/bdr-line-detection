@@ -2,11 +2,11 @@ import cv2
 import numpy as np
 from math import sqrt
 
-class LineError(image):
-    def __init__(self, image, debug = 0):
+class LineError():
+    def __init__(self, debug = 0):
         self.delta = None
         self.theta = None
-        self.image = image
+        self.image = None
         self.debug = debug
 
     def CalcError(self):
@@ -28,7 +28,7 @@ class LineError(image):
 
         # definitions
         h, w = self.image.shape[:2]
-        angles = []
+        angles, x1s, y1s, x2s, y2s = [], [], [], [], []
 
         # parse results for the two most prominent lines
         for line in lines[:2]:
@@ -42,18 +42,42 @@ class LineError(image):
             x2 = int(x0 - 100000*(-b))
             y2 = int(y0 - 100000*(a))
 
-            num = abs((y2-y1)*(w/2) - (x2-x1)*(h/2) + x2*y1 - y2*x1)
-            denom = sqrt((y2-y1)**2 + (x2-x1)**2)
-
             if(self.debug == 1):
                 cv2.line(self.image,(x1,y1),(x2,y2),(0,255,0),5)
 
             angles.append(line[0][1])
-            self.delta = num/denom
+            x1s.append(x1)
+            y1s.append(y1)
+            x2s.append(x2)
+            y2s.append(y2)
+
 
         # calculate the value of theta
         self.theta = sum(angles)/len(angles)
 
-    def GetError(self):
+        # calculate the value of delta
+        x1 = sum(x1s)//len(x1s)
+        x2 = sum(x2s)//len(x2s)
+        y1 = sum(y1s)//len(y1s)
+        y2 = sum(y2s)//len(y2s)
+
+        num = abs((y2-y1)*(w/2) - (x2-x1)*(h/2) + x2*y1 - y2*x1)
+        denom = sqrt((y2-y1)**2 + (x2-x1)**2)
+
+        if((x1+x2)/2 >= w/2):
+            self.delta = num/denom
+        else:
+            self.delta = -num/denom
+
+        # draw identifiers for debugging
+        if(self.debug == 1):
+            cv2.circle(self.image, (w//2,h//2), 25, (0,255,0), 5)
+            cv2.line(self.image,(x1,y1),(x2,y2),(255,0,0),5)
+
+    def GetError(self, image):
+        self.image = image
         self.CalcError()
         return [self.delta, self.theta]
+
+    def GetImage(self):
+        return self.image
