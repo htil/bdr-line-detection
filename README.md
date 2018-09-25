@@ -21,13 +21,13 @@ Since edge detection results are easily affected by image noise, it is essential
 
 The line for the Brain-Drone Race is red. In order to isolate this line, it is necessary to choose the most suitable color space that clearly highlights the line. This allows the image to retain as much of the red line as possible while blacking out other noise in the image.
 
-HSL is an alternative color space representation to the RGB color space. Based on testing of various color spaces, the HSL representation produced the clearest red line of all color spaces. 
+HLS is an alternative color space representation to the RGB color space. Based on testing of various color spaces, the HLS representation produced the clearest red line of all color spaces. 
 
 <img src="https://github.com/htil/bdr-line-detection/blob/master/images/sample_workflow/hls.jpg" width="200">
 
 **3. Color-Based Filtering**
 
-Once the image has been converted to HSL, a mask is then applied to the image that filters based on a range of HSL values. The values for this mask were selected heuristically based on the general HSL range of red. When this mask is applied to the blurred image, the result is an image that consists of the isolated red line.
+Once the image has been converted to HLS, a mask is then applied to the image that filters based on a range of HLS values. The values for this mask were selected heuristically based on the general HLS range of red. When this mask is applied to the blurred image, the result is an image that consists of the isolated red line.
 
 <img src="https://github.com/htil/bdr-line-detection/blob/master/images/sample_workflow/mask.jpg" width="200">
 
