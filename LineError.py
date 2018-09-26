@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from math import sqrt
+from math import sqrt, atan
 
 class LineError():
     def __init__(self, debug = 0):
@@ -15,7 +15,7 @@ class LineError():
         hls  = cv2.cvtColor(blur, cv2.COLOR_RGB2HLS)
 
         # apply a color filter
-        lower_range = np.array([50, 50, 100], dtype=np.uint8)
+        lower_range = np.array([50, 50, 115], dtype=np.uint8)
         upper_range = np.array([255, 255, 255], dtype=np.uint8)
         mask = cv2.inRange(hls, lower_range, upper_range)
         masked_image = cv2.bitwise_and(self.image, self.image, mask=mask)
@@ -28,7 +28,7 @@ class LineError():
 
         # definitions
         h, w = self.image.shape[:2]
-        angles, x1s, y1s, x2s, y2s = [], [], [], [], []
+        x1s, y1s, x2s, y2s = [], [], [], []
 
         # parse results for the two most prominent lines
         for line in lines[:2]:
@@ -45,15 +45,10 @@ class LineError():
             if(self.debug == 1):
                 cv2.line(self.image,(x1,y1),(x2,y2),(0,255,0),5)
 
-            angles.append(line[0][1])
             x1s.append(x1)
             y1s.append(y1)
             x2s.append(x2)
             y2s.append(y2)
-
-
-        # calculate the value of theta
-        self.theta = sum(angles)/len(angles)
 
         # calculate the value of delta
         x1 = sum(x1s)//len(x1s)
@@ -66,6 +61,9 @@ class LineError():
 
         k = self.GetConstant(x1, y1, x2, y2)
         self.delta = k * num/denom
+
+        # calculate the value of theta
+        self.theta = self.GetTheta(x1, y1, x2, y2)
 
         # draw identifiers for debugging
         if(self.debug == 1):
@@ -82,6 +80,8 @@ class LineError():
 
     def GetConstant(self, x1, y1, x2, y2):
         h, w = self.image.shape[:2]
+        y1 = h - y1
+        y2 = h - y2
 
         if(x2-x1 != 0):
             m = (y2-y1)/(x2-x1)
@@ -93,3 +93,19 @@ class LineError():
             return 1
         else:
             return -1
+
+    def GetTheta(self, x1, y1, x2, y2):
+        h, w = self.image.shape[:2]
+        y1 = h - y1
+        y2 = h - y2
+
+        if(x2-x1 != 0):
+            m = (y2-y1)/(x2-x1)
+            t = atan(m)
+
+            if(t < 0):
+                t = t + np.pi
+
+            return t
+        else:
+            return np.pi/2
