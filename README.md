@@ -45,10 +45,17 @@ The Hough Transform is a technique which can be used to isolate features of a pa
 
 **6. Error Calculation**
 
-//TODO: add description
-<!--
+The error for the detected line is represented by two values δ and θ, where δ = the perpendicular distance from the line to the center of the image in pixels, and θ = the angle of the line in the image in radians.
+
 If a line is defined by two points <img src="https://tex.s2cms.ru/svg/P_1%3D(x_1%2Cy_1)"/> 
 and <img src="https://tex.s2cms.ru/svg/P_2%3D(x_2%2Cy_2)" /> then the distance from 
 <img src="https://tex.s2cms.ru/svg/(x_0%2Cy_0)"/> to the line is given by
-<img src="https://tex.s2cms.ru/svg/distance(P_1%2CP_2%2C(x_0%2Cy_0))%3D%5Cfrac%7B%7C(y_2-y_1)x_0-(x_2-x_1)y_0%2Bx_2y_1-y_2x_1%7C%7D%7B%5Csqrt%7B(y_2-y_1)%5E2%2B(x_2-x_1)%5E2%7D"/>
--->
+
+<img src="https://tex.s2cms.ru/svg/%5Cdelta%20%3D%20distance(P_1%2CP_2%2C(x_0%2Cy_0))%3D%5Cfrac%7B%7C(y_2-y_1)x_0-(x_2-x_1)y_0%2Bx_2y_1-y_2x_1%7C%7D%7B%5Csqrt%7B(y_2-y_1)%5E2%2B(x_2-x_1)%5E2%7D"/>
+
+
+Likewise, a mapping is defined from two points on the line to an angle in the range [0 rads, π rads] such that
+
+<img src="https://tex.s2cms.ru/svg/%5Ctheta%20%3D%20%5C%5B%5Cleft%5C%7B%0A%5Cbegin%7Barray%7D%7Bll%7D%0A%20%20%20%20%20%20%5Cpi%2F2%20%26%20x_2-x_1%3D0%20%5C%5C%0A%20%20%20%20%20%20%5Carctan%7B(m)%7D%20%26%20x_2-x_1%5Cneq0%20%5C%5C%0A%5Cend%7Barray%7D%20%0A%5Cright.%20%5C%5D"/>
+
+where <img src="https://tex.s2cms.ru/svg/m"/> is defined to be the slope of the line and <img src="https://tex.s2cms.ru/svg/range(%5Carctan(m))"/> = [0 rads, π rads]
