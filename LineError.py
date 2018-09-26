@@ -53,7 +53,7 @@ class LineError():
 
 
         # calculate the value of theta
-        self.theta = np.pi/2 - sum(angles)/len(angles)
+        self.theta = sum(angles)/len(angles)
 
         # calculate the value of delta
         x1 = sum(x1s)//len(x1s)
@@ -64,10 +64,8 @@ class LineError():
         num = abs((y2-y1)*(w/2) - (x2-x1)*(h/2) + x2*y1 - y2*x1)
         denom = sqrt((y2-y1)**2 + (x2-x1)**2)
 
-        if((x1+x2)/2 >= w/2):
-            self.delta = num/denom
-        else:
-            self.delta = -num/denom
+        k = self.GetConstant(x1, y1, x2, y2)
+        self.delta = k * num/denom
 
         # draw identifiers for debugging
         if(self.debug == 1):
@@ -81,3 +79,17 @@ class LineError():
 
     def GetImage(self):
         return self.image
+
+    def GetConstant(self, x1, y1, x2, y2):
+        h, w = self.image.shape[:2]
+
+        if(x2-x1 != 0):
+            m = (y2-y1)/(x2-x1)
+            x = (h/2 - y1)/m + x1
+        else:
+            x = x1
+
+        if(x >= w/2):
+            return 1
+        else:
+            return -1
